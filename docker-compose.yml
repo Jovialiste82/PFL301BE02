@@ -1,0 +1,20 @@
+version: "3.8" # Use a version of Docker Compose file syntax that is supported by your Docker Compose installation
+
+services:
+  backend:
+    build:
+      context: . # Directory containing the Dockerfile
+      dockerfile: Dockerfile # Name of the Dockerfile
+      args: # Optional build arguments
+        NODE_ENV: development # Sets the build-time environment variable
+    image: backend-app # Name the image
+    container_name: backend-app-container # Optional container name
+    ports:
+      - "5000:5000" # Map port 5000 of the container to port 5000 on the host
+    environment:
+      - NODE_ENV=development # Set the runtime environment variable
+    volumes:
+      - .:/usr/src/app # Mount the project directory to the working directory in the container
+      - /usr/src/app/node_modules # Mount node_modules as a separate volume to avoid overriding with local node_modules
+    restart: unless-stopped # Control the restart policy
+
